@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+  annotations:
+    # 配置使用指定的SLB实例（SLB ID）
+    service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-uf6fgo5c9ag0lrmxli0sa            ##替换为你的SLB ID
+    service.beta.kubernetes.io/alicloud-loadbalancer-force-override-listeners: "true"
+spec:
+  externalTrafficPolicy: Local
+  # loadBalancerIP: {{PUBLIC_IP}}
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+    - name: https
+      port: 443
+      targetPort: https
+
+---
+
