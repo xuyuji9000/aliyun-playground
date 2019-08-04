@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodejs
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - nodejs.yogiman.cn
+    secretName: aliyun-k8s-ingress-tls
+  rules:
+  - host: nodejs.yogiman.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nodejs
+          servicePort: 80

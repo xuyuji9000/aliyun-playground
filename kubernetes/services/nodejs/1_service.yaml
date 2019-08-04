@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nodejs
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: nodejs
+        image: yogiman/aliyun-nodejs
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: testkx-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: nodejs
