@@ -11,6 +11,6 @@
 
 ``` bash
 kubectl run --rm=true \
--it alpine \
---image=alpine /bin/sh
+-it ubuntu \
+--image=ubuntu /bin/bash
 ```
